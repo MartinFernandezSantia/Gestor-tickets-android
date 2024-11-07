@@ -26,7 +26,7 @@ public class UsuarioDAO {
         rolDAO = new RolDAO(context);
     }
 
-    boolean create(Usuario usuario) {
+    public boolean create(Usuario usuario) {
         try {
             // Begin transaction
             this.db = dbHelper.getWritableDatabase();
@@ -65,7 +65,7 @@ public class UsuarioDAO {
         return false;
     }
 
-    boolean resetPassword(int id) {
+    public boolean resetPassword(int id) {
         try {
             this.db = dbHelper.getWritableDatabase();
 
@@ -84,7 +84,7 @@ public class UsuarioDAO {
         return false;
     }
 
-    boolean updateBloqueado(int id, boolean bloqueado) {
+    public boolean updateBloqueado(int id, boolean bloqueado) {
         try {
             this.db = dbHelper.getWritableDatabase();
 
@@ -102,7 +102,7 @@ public class UsuarioDAO {
         return false;
     }
 
-    boolean updatePassword(int id, String currPass, String newPass) {
+    public boolean updatePassword(int id, String currPass, String newPass) {
         try {
             this.db = dbHelper.getWritableDatabase();
 
@@ -120,7 +120,7 @@ public class UsuarioDAO {
         return false;
     }
 
-    boolean updateMarcasYFallas(Usuario tecnico) {
+    public boolean updateMarcasYFallas(Usuario tecnico) {
         try {
             this.db = dbHelper.getWritableDatabase();
 
@@ -156,7 +156,7 @@ public class UsuarioDAO {
 //        return -1;
 //    }
 
-    Optional<Usuario> getByID(int id) {
+    public Optional<Usuario> getByID(int id) {
         Optional<Usuario> usuario = Optional.empty();
         try {
             this.db = dbHelper.getReadableDatabase();
@@ -185,7 +185,7 @@ public class UsuarioDAO {
         return usuario;
     }
 
-    List<Usuario> getAll() {
+    public List<Usuario> getAll() {
         List<Usuario> usuarios = new ArrayList<>();
         try {
             this.db = dbHelper.getReadableDatabase();

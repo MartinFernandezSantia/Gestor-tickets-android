@@ -1,8 +1,9 @@
 package com.martin.gestortickets.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Usuario {
+public class Usuario implements Serializable {
     private Integer id;
     private String password;
     private Rol rol;
