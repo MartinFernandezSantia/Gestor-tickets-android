@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Usuario implements Serializable {
+    private static final long serialVersionUID = 1L; // Recommended for Serializable classes
+
     private Integer id;
     private String password;
     private Rol rol;

@@ -1,8 +1,11 @@
 package com.martin.gestortickets.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Rol {
+public class Rol implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private Integer id;
     private String nombre;
 

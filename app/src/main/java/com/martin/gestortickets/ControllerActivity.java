@@ -9,13 +9,17 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.martin.gestortickets.db.DatabaseHelper;
+import com.martin.gestortickets.entities.Usuario;
 import com.martin.gestortickets.views.ChangePasswActivity;
 import com.martin.gestortickets.views.LoginActivity;
+import com.martin.gestortickets.views.MainActivity;
 
 public class ControllerActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private ActivityResultLauncher<Intent> loginLauncher;
     private ActivityResultLauncher<Intent> changePassLauncher;
+    private ActivityResultLauncher<Intent> mainLauncher;
+    private Usuario user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,10 @@ public class ControllerActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 this::handleChangePass
         );
+        mainLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::handleChangePass
+        );
 
         launchLoginActivity();
     }
@@ -53,6 +61,11 @@ public class ControllerActivity extends AppCompatActivity {
         changePassLauncher.launch(intent);
     }
 
+    private void launchMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        mainLauncher.launch(intent);
+    }
+
     private void handleLoginResult(ActivityResult result) {
         // If user must change their password
         if (result.getResultCode() == RESULT_FIRST_USER && result.getData() != null) {
@@ -61,6 +74,13 @@ public class ControllerActivity extends AppCompatActivity {
 
             launchChangePassActivity(userID);
         }
+        else if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+            Intent data = result.getData();
+            this.user = data.getParcelableExtra("user");
+
+            launchMainActivity();
+        }
+
     }
 
     private void handleChangePass(ActivityResult result) {

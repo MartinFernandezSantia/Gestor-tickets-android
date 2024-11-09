@@ -13,8 +13,10 @@
         android:theme="@style/Theme.GestorTickets"
         tools:targetApi="31" >
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+            android:name=".views.MainActivity"
+            android:exported="false"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.GestorTickets.NoActionBar" />
         <activity
             android:name=".views.ChangePasswActivity"
             android:exported="false" />
