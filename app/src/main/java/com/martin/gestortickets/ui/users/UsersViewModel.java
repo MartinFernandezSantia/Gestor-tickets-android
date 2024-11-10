@@ -1,6 +1,7 @@
 package com.martin.gestortickets.ui.users;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -33,4 +34,16 @@ public class UsersViewModel extends AndroidViewModel {
 
         userListLiveData.setValue(users);
     }
+
+    public void addUser(Usuario usuario) {
+        List<Usuario> currentUsers = userListLiveData.getValue();
+
+        // Create a new list and add the user to it
+        List<Usuario> updatedUsers = new ArrayList<>(currentUsers);
+        updatedUsers.add(usuario);
+
+        // Set the updated list to trigger the observer
+        userListLiveData.setValue(updatedUsers);
+    }
+
 }

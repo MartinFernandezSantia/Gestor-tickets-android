@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!-- res/drawable/spinner_background.xml -->
+<!-- res/drawable/spinner_with_arrow_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Rounded rectangle background with color and border -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" /> <!-- Off-white background -->
+            <corners android:radius="10dp" />
+            <stroke android:width="1dp" android:color="#D3D3D3" />
+        </shape>
+    </item>
+
+    <!-- Arrow overlay aligned to the end -->
+    <item android:drawable="@drawable/ic_arrow_drop_down"
+        android:gravity="end|center_vertical"
+        android:paddingEnd="20dp"/>
+</layer-list>
+

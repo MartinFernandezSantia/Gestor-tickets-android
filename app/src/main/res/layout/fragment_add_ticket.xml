@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cardview_dark_background"
+    tools:context=".ui.add_ticket.AddTicketFragment" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="15sp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nuevo Ticket"
+            android:textColor="@color/white"
+            android:textSize="35sp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:layout_marginBottom="20sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginVertical="15sp">
+
+            <!-- Label TextView -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titulo"
+                android:textColor="@color/white"
+                android:textSize="23sp"
+                android:layout_gravity="left" />
+
+            <!-- TextInputLayout with TextInputEditText -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Til"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                android:layout_gravity="center">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/descripcion"
+                    android:layout_width="350sp"
+                    android:layout_height="60sp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    tools:ignore="KeyboardInaccessibleWidget" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginVertical="15sp">
+
+            <!-- Label TextView -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Descripción"
+                android:textColor="@color/white"
+                android:textSize="23sp"
+                android:layout_gravity="left" />
+
+            <!-- TextInputLayout with TextInputEditText -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Til"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                android:layout_gravity="center">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/titulo"
+                    android:layout_width="350sp"
+                    android:layout_height="160sp"
+                    android:ellipsize="end"
+                    android:textColor="@color/white"
+                    tools:ignore="KeyboardInaccessibleWidget"
+                    android:inputType="textMultiLine"
+                    android:gravity="top|start"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Empty View to take up remaining space -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/createBtn"
+            android:layout_width="350sp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="50dp"
+            android:backgroundTint="@color/buttonBg"
+            android:text="Crear Ticket"
+            android:textColor="@color/background2"
+            android:textSize="20sp"
+            app:cornerRadius="20dp" />
+
+    </LinearLayout>
+</FrameLayout>

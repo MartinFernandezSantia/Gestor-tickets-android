@@ -18,8 +18,37 @@
         tools:layout="@layout/fragment_users" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.martin.gestortickets.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_add_user"
+        android:name="com.martin.gestortickets.ui.add_user.AddUserFragment"
+        android:label="@string/menu_add_user"
+        tools:layout="@layout/fragment_add_user" />
+
+    <fragment
+        android:id="@+id/nav_tickets_admin"
+        android:name="com.martin.gestortickets.ui.tickets_admin.TicketsAdminFragment"
+        android:label="@string/menu_tickets_admin"
+        tools:layout="@layout/fragment_tickets_admin" />
+
+    <fragment
+        android:id="@+id/nav_tickets_tecnico"
+        android:name="com.martin.gestortickets.ui.tickets_tecnico.TicketsTecnicoFragment"
+        android:label="@string/menu_tickets_tecnico"
+        tools:layout="@layout/fragment_tickets_tecnico" />
+
+    <fragment
+        android:id="@+id/nav_tickets_trabajador"
+        android:name="com.martin.gestortickets.ui.tickets_trabajador.TicketsTrabajadorFragment"
+        android:label="@string/menu_tickets_trabajador"
+        tools:layout="@layout/fragment_tickets_trabajador" />
+
+    <fragment
+        android:id="@+id/nav_tickets_pendientes"
+        android:name="com.martin.gestortickets.ui.tickets_pendientes.TicketsPendientesFragment"
+        android:label="@string/menu_tickets_pendientes"
+        tools:layout="@layout/fragment_tickets_pendientes" />
+    <fragment
+        android:id="@+id/nav_add_ticket"
+        android:name="com.martin.gestortickets.ui.add_ticket.AddTicketFragment"
+        android:label="@string/menu_add_ticket"
+        tools:layout="@layout/fragment_add_ticket" />
 </navigation>

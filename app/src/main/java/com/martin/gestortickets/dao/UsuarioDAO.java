@@ -34,7 +34,7 @@ public class UsuarioDAO {
 
             // Insert new user
             ContentValues newUser = new ContentValues();
-            newUser.put("contraseña", usuario.getPassword());
+            newUser.put("contraseña", (usuario.getPassword() != null) ? usuario.getPassword() : "temp");
             newUser.put("rol_id", usuario.getRol().getId());
             int newUserID = (int) this.db.insertOrThrow("usuarios", null, newUser);
             usuario.setId(newUserID);
@@ -53,7 +53,7 @@ public class UsuarioDAO {
             this.db.setTransactionSuccessful();
 
             // Set password = id
-            resetPassword(newUserID);
+            resetPassword(newUserID, false);
 
             return true;
         } catch (SQLException e) {
@@ -65,7 +65,7 @@ public class UsuarioDAO {
         return false;
     }
 
-    public boolean resetPassword(int id) {
+    public boolean resetPassword(int id, boolean closeDB) {
         try {
             this.db = dbHelper.getWritableDatabase();
 
@@ -79,7 +79,7 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             Log.e("Error al blanquear contraseña del usuario", e.getMessage());
         } finally {
-            dbHelper.closeResources(this.db, this.cursor);
+            if (closeDB) dbHelper.closeResources(this.db, this.cursor);
         }
         return false;
     }

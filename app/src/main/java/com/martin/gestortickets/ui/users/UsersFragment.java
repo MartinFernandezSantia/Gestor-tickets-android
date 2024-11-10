@@ -1,6 +1,8 @@
 package com.martin.gestortickets.ui.users;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,10 +33,10 @@ public class UsersFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        UsersViewModel usersViewModel = new ViewModelProvider(this).get(UsersViewModel.class);
+        UsersViewModel usersViewModel = new ViewModelProvider(requireActivity()).get(UsersViewModel.class);
         binding = FragmentUsersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        userTable = binding.getRoot().findViewById(R.id.userTable);
+        userTable = root.findViewById(R.id.userTable);
 
         usersViewModel.getUsers().observe(getViewLifecycleOwner(), this::updateUserTable);
 
@@ -89,7 +91,7 @@ public class UsersFragment extends Fragment {
         for (int i=0; i < texts.length; i++) {
             addCell(texts[i], row, (i!=1 && i!=4), isWhite);
         }
-        addSwitchCell(isBloqueado, row);
+        addSwitchCell(isBloqueado, row, isWhite);
 
         // Sets row background color
         if (isWhite) {
@@ -142,7 +144,7 @@ public class UsersFragment extends Fragment {
         row.addView(textView);
     }
 
-    private void addSwitchCell(boolean isBloqueado, TableRow row) {
+    private void addSwitchCell(boolean isBloqueado, TableRow row, boolean isWhite) {
         Switch userSwitch = new Switch(getContext());
 
         TableRow.LayoutParams params = new TableRow.LayoutParams(
@@ -154,6 +156,13 @@ public class UsersFragment extends Fragment {
         userSwitch.setText(null);
         userSwitch.setPadding(8, 8, 8, 8);
         userSwitch.setLayoutParams(params);
+
+        if (isWhite) {
+            userSwitch.setThumbTintList(ColorStateList.valueOf(getResources().getColor(com.google.android.material.R.color.cardview_dark_background)));
+        }
+        else {
+            userSwitch.setTrackTintList(ColorStateList.valueOf(getResources().getColor(R.color.borderColor)));
+        }
 
         row.addView(userSwitch);
     }

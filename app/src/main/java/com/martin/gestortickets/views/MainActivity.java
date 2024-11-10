@@ -1,8 +1,10 @@
 package com.martin.gestortickets.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -16,11 +18,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.martin.gestortickets.R;
 import com.martin.gestortickets.databinding.ActivityMainBinding;
+import com.martin.gestortickets.entities.Usuario;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+
+    private Usuario user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,25 +35,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .setAnchorView(R.id.fab).show();
-            }
-        });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_users, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_users, R.id.nav_tickets_admin, R.id.nav_tickets_tecnico, R.id.nav_tickets_trabajador, R.id.nav_tickets_pendientes)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        // MY CODE
+        // Retrieve transferred data through intent
+        Intent intent = getIntent();
+        user = (Usuario) intent.getSerializableExtra("user");
+
+        // If user is Tecnico fill marcas and fallas TextViews in nav_headers_main
+        if (user.getRol().getId() == 2) {
+            NavigationView navigationView1 = findViewById(R.id.nav_view);
+            View headerView = navigationView.getHeaderView(0);
+
+            TextView fallasTextView = headerView.findViewById(R.id.fallas);
+            TextView marcasTextView = headerView.findViewById(R.id.marcas);
+
+            fallasTextView.setText("Fallas: " + user.getFallas());
+            marcasTextView.setText("Marcas: " + user.getMarcas());
+        }
     }
 
     @Override

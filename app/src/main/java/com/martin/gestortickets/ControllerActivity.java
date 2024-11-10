@@ -2,6 +2,7 @@ package com.martin.gestortickets;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
@@ -63,6 +64,7 @@ public class ControllerActivity extends AppCompatActivity {
 
     private void launchMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("user", this.user);
         mainLauncher.launch(intent);
     }
 
@@ -76,8 +78,7 @@ public class ControllerActivity extends AppCompatActivity {
         }
         else if (result.getResultCode() == RESULT_OK && result.getData() != null) {
             Intent data = result.getData();
-            this.user = data.getParcelableExtra("user");
-
+            this.user = (Usuario) data.getSerializableExtra("user");
             launchMainActivity();
         }
 

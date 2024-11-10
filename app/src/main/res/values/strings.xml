@@ -10,5 +10,10 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_users">Usuarios</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_add_user">Nuevo usuario</string>
+    <string name="menu_tickets_admin">Tickets</string>
+    <string name="menu_tickets_tecnico">Mis Tickets</string>
+    <string name="menu_tickets_trabajador">Mis Tickets</string>
+    <string name="menu_tickets_pendientes">Tickets Pendientes</string>
+    <string name="menu_add_ticket">Nuevo ticket</string>
 </resources>

@@ -10,6 +10,7 @@
     <color name="background1">#000000</color>
     <color name="background2">#1d1d1d</color>
     <color name="buttonBg">#dff71d</color>
+    <color name="buttonBg2">#1ddff7</color>
     <color name="textFg">#d8d8d8</color>
     <color name="borderColor">#c2cbcc</color>
 </resources>

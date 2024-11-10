@@ -13,8 +13,28 @@
             android:icon="@drawable/ic_profile"
             android:title="@string/menu_users" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_add_user"
+            android:icon="@drawable/ic_add_user"
+            android:title="@string/menu_add_user" />
+        <item
+            android:id="@+id/nav_tickets_admin"
+            android:icon="@drawable/ic_ticket"
+            android:title="@string/menu_tickets_admin" />
+        <item
+            android:id="@+id/nav_tickets_tecnico"
+            android:icon="@drawable/ic_ticket"
+            android:title="@string/menu_tickets_tecnico" />
+        <item
+            android:id="@+id/nav_tickets_trabajador"
+            android:icon="@drawable/ic_ticket"
+            android:title="@string/menu_tickets_trabajador" />
+        <item
+            android:id="@+id/nav_tickets_pendientes"
+            android:icon="@drawable/ic_pending_tickets"
+            android:title="@string/menu_tickets_pendientes" />
+        <item
+            android:id="@+id/nav_add_ticket"
+            android:icon="@drawable/ic_add_ticket"
+            android:title="@string/menu_add_ticket" />
     </group>
 </menu>
