@@ -45,7 +45,7 @@ public class ControllerActivity extends AppCompatActivity {
         );
         mainLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                this::handleChangePass
+                this::handleMainResult
         );
 
         launchLoginActivity();
@@ -90,6 +90,17 @@ public class ControllerActivity extends AppCompatActivity {
         }
         else {
             finish();
+        }
+    }
+
+    private void handleMainResult(ActivityResult result) {
+        // If logout
+        if (result.getResultCode() == RESULT_CANCELED) {
+            this.user = null;
+            launchLoginActivity();
+        }
+        else if (result.getResultCode() == RESULT_FIRST_USER) { // Change Password
+            launchChangePassActivity(this.user.getId());
         }
     }
 }

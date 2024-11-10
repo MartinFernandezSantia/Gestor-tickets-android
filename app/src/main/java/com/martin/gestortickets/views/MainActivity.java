@@ -2,6 +2,7 @@ package com.martin.gestortickets.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
@@ -64,6 +65,33 @@ public class MainActivity extends AppCompatActivity {
             fallasTextView.setText("Fallas: " + user.getFallas());
             marcasTextView.setText("Marcas: " + user.getMarcas());
         }
+
+        // Hide menu items based on user's role
+        Menu navMenu = navigationView.getMenu();
+        switch (user.getRol().getId()) {
+            case 1:
+                navMenu.findItem(R.id.nav_tickets_pendientes).setVisible(false);
+                navMenu.findItem(R.id.nav_tickets_tecnico).setVisible(false);
+                navMenu.findItem(R.id.nav_tickets_trabajador).setVisible(false);
+                navMenu.findItem(R.id.nav_add_ticket).setVisible(false);
+                break;
+
+            case 2:
+                navMenu.findItem(R.id.nav_add_ticket).setVisible(false);
+                navMenu.findItem(R.id.nav_add_user).setVisible(false);
+                navMenu.findItem(R.id.nav_tickets_trabajador).setVisible(false);
+                navMenu.findItem(R.id.nav_tickets_admin).setVisible(false);
+                navMenu.findItem(R.id.nav_users).setVisible(false);
+                break;
+
+            case 3:
+                navMenu.findItem(R.id.nav_add_user).setVisible(false);
+                navMenu.findItem(R.id.nav_tickets_admin).setVisible(false);
+                navMenu.findItem(R.id.nav_users).setVisible(false);
+                navMenu.findItem(R.id.nav_tickets_pendientes).setVisible(false);
+                navMenu.findItem(R.id.nav_tickets_tecnico).setVisible(false);
+                break;
+        }
     }
 
     @Override
@@ -78,5 +106,23 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout) {
+            setResult(RESULT_CANCELED);
+            finish();
+            return true;
+        }
+        else if (id == R.id.changePass) {
+            setResult(RESULT_FIRST_USER);
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

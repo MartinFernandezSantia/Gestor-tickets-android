@@ -12,6 +12,7 @@ import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -30,10 +31,11 @@ public class UsersFragment extends Fragment {
     private FragmentUsersBinding binding;
     private boolean alterBackgroundColor = true;
     private List<Boolean> rowSelectionStates = new ArrayList<>();
+    UsersViewModel usersViewModel;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        UsersViewModel usersViewModel = new ViewModelProvider(requireActivity()).get(UsersViewModel.class);
+        usersViewModel = new ViewModelProvider(requireActivity()).get(UsersViewModel.class);
         binding = FragmentUsersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         userTable = root.findViewById(R.id.userTable);
@@ -164,6 +166,23 @@ public class UsersFragment extends Fragment {
             userSwitch.setTrackTintList(ColorStateList.valueOf(getResources().getColor(R.color.borderColor)));
         }
 
+        // Handle switch toggle events
+        userSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Get the parent TableRow of this Switch and call handler
+            TableRow parentRow = (TableRow) buttonView.getParent();
+            handleSwitchToggle(parentRow, isChecked, userSwitch);
+        });
+
         row.addView(userSwitch);
+    }
+
+    private void handleSwitchToggle(TableRow row, boolean isChecked, Switch userSwitch) {
+        TextView idTV = (TextView) row.getChildAt(0);
+        int id = Integer.parseInt(idTV.getText().toString());
+
+        if (!usersViewModel.updateUserBlock(id, isChecked)) {
+            Toast.makeText(getContext(), "No se ha podido actualizar el bloqueo del usuario", Toast.LENGTH_SHORT).show();
+            userSwitch.setChecked(!isChecked);
+        }
     }
 }
