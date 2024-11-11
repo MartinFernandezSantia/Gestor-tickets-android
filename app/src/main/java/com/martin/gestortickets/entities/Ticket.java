@@ -36,6 +36,12 @@ public class Ticket {
         this.creador = creador;
     }
 
+    public Ticket(String titulo, String descripcion, Usuario creador) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.creador = creador;
+    }
+
     public Integer getId() {
         return id;
     }

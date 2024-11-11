@@ -48,7 +48,7 @@ public class TicketDAO {
         return false;
     }
 
-    public boolean update(int ticketID, int tecnicoID, int estadoID) {
+    public boolean update(int ticketID, Integer tecnicoID, int estadoID) {
         try {
             this.db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
@@ -70,7 +70,7 @@ public class TicketDAO {
     public Optional<Ticket> getByID(int id) {
         Optional<Ticket> ticket = Optional.empty();
         try {
-            String sql = "SELECT t.id, t.titulo, t.descripcion, t.usuario_id, e.id, e.estado, a.usuario_id " +
+            String sql = "SELECT t.id, t.titulo, t.descripcion, t.usuario_id, e.id, e.nombre, a.usuario_id " +
                     "FROM tickets AS t " +
                     "LEFT JOIN (" +
                         "SELECT ticket_id, usuario_id, estado_id, id " +
@@ -118,7 +118,7 @@ public class TicketDAO {
         try {
             // Build sql query
             String sql =
-                    "SELECT t.id, t.titulo, t.descripcion, t.usuario_id, e.id, e.estado, a.usuario_id " +
+                    "SELECT t.id, t.titulo, t.descripcion, t.usuario_id, e.id, e.nombre, a.usuario_id " +
                             "FROM tickets AS t " +
                             "LEFT JOIN (" +
                             "SELECT ticket_id, usuario_id, estado_id, id " +
@@ -169,7 +169,7 @@ public class TicketDAO {
     public List<Ticket> getAllTaken(int tecnicoID) {
         List<Ticket> tickets = new ArrayList<>();
         try {
-            String sql = "SELECT t.id, t.titulo, t.descripcion, t.usuario_id, e.id, e.estado, a.usuario_id " +
+            String sql = "SELECT t.id, t.titulo, t.descripcion, t.usuario_id, e.id, e.nombre, a.usuario_id " +
                     "FROM tickets AS t " +
                     "LEFT JOIN (" +
                         "SELECT ticket_id, usuario_id, estado_id, id " +

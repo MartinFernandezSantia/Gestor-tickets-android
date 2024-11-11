@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TableLayout;
@@ -30,17 +31,22 @@ public class UsersFragment extends Fragment {
     private TableLayout userTable;
     private FragmentUsersBinding binding;
     private boolean alterBackgroundColor = true;
-    private List<Boolean> rowSelectionStates = new ArrayList<>();
-    UsersViewModel usersViewModel;
-
+    private int selectedRowIndex = -1;
+    private boolean selectedRowWasWhite;
+    private UsersViewModel usersViewModel;
+    private Usuario user;
+    private Button resetPasswBtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         usersViewModel = new ViewModelProvider(requireActivity()).get(UsersViewModel.class);
         binding = FragmentUsersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        userTable = root.findViewById(R.id.userTable);
+        userTable = binding.userTable;
+        resetPasswBtn = binding.resetPasswBtn;
+        user = (Usuario) getArguments().getSerializable("user");
 
         usersViewModel.getUsers().observe(getViewLifecycleOwner(), this::updateUserTable);
+        resetPasswBtn.setOnClickListener(v -> resetPassword());
 
         return root;
     }
@@ -58,16 +64,17 @@ public class UsersFragment extends Fragment {
         addHeaderRow();
 
         for (int i=0; i< users.size(); i++) {
-            Usuario user = users.get(i);
+            Usuario user1 = users.get(i);
+            if (user1.equals(user)) continue;
             // New row cell values
             String[] userString = new String[]{
-                    user.getId().toString(),
-                    user.getRol().getNombre(),
-                    (user.getFallas() != null) ? user.getFallas().toString() : null,
-                    (user.getMarcas() != null) ? user.getMarcas().toString() : null,
+                    user1.getId().toString(),
+                    user1.getRol().getNombre(),
+                    (user1.getFallas() != null) ? user1.getFallas().toString() : null,
+                    (user1.getMarcas() != null) ? user1.getMarcas().toString() : null,
             };
             // Add row
-            addDataRow(userString, alterBackgroundColor, user.isBloqueado(), i);
+            addDataRow(userString, alterBackgroundColor, user1.isBloqueado(), i);
             // Changes next row's bg
             alterBackgroundColor = !alterBackgroundColor;
         }
@@ -103,20 +110,26 @@ public class UsersFragment extends Fragment {
         // Handle row click event for selection
         row.setOnClickListener(view -> {
             // Toggle selection state for this row
-            boolean isSelected = rowSelectionStates.get(rowIndex);
-            rowSelectionStates.set(rowIndex, !isSelected);
 
-            // Change background color based on selection
-            if (!isSelected) {
-                row.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.teal_700));
-            } else {
-                row.setBackgroundColor(isWhite ? ContextCompat.getColor(getContext(), R.color.white) :
+            // If a row is selected
+            if (selectedRowIndex != -1) {
+                // Set unselect the row
+                TableRow selectedRow = (TableRow) userTable.getChildAt(selectedRowIndex);
+                selectedRow.setBackgroundColor(selectedRowWasWhite ? ContextCompat.getColor(getContext(), R.color.white) :
                         ContextCompat.getColor(getContext(), androidx.cardview.R.color.cardview_dark_background));
-            }
-        });
 
-        // Initialize the selection state for this row
-        rowSelectionStates.add(false);
+                // If the selected row was this one
+                if (selectedRowIndex == rowIndex)  {
+                    selectedRowIndex = -1;
+                    return;
+                }
+            }
+
+            // Change bg of newly selected row
+            selectedRowIndex = rowIndex;
+            selectedRowWasWhite = isWhite;
+            row.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.teal_700));
+        });
 
         // Add the row to the TableLayout
         userTable.addView(row);
@@ -183,6 +196,23 @@ public class UsersFragment extends Fragment {
         if (!usersViewModel.updateUserBlock(id, isChecked)) {
             Toast.makeText(getContext(), "No se ha podido actualizar el bloqueo del usuario", Toast.LENGTH_SHORT).show();
             userSwitch.setChecked(!isChecked);
+        }
+    }
+
+    private void resetPassword() {
+        if (selectedRowIndex == -1) {
+            Toast.makeText(getContext(), "No se ha seleccionado un usuario", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        TableRow row = (TableRow) userTable.getChildAt(selectedRowIndex);
+        TextView idTV = (TextView) row.getChildAt(0);
+        int id = Integer.parseInt(idTV.getText().toString());
+
+        if (usersViewModel.resetPassword(id)) {
+            Toast.makeText(getContext(), "Contraseña blanqueada exitosamente", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(getContext(), "No se ha podido blanquear la contraseña del usuario seleccionado", Toast.LENGTH_SHORT).show();
         }
     }
 }

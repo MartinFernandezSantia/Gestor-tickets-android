@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.martin.gestortickets.R;
 import com.martin.gestortickets.databinding.ActivityMainBinding;
 import com.martin.gestortickets.entities.Usuario;
+import com.martin.gestortickets.ui.add_ticket.AddTicketFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +54,42 @@ public class MainActivity extends AppCompatActivity {
         // Retrieve transferred data through intent
         Intent intent = getIntent();
         user = (Usuario) intent.getSerializableExtra("user");
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
+
+        // Handle the selection of the menu item to navigate to AddTicketFragment
+        navigationView.setNavigationItemSelectedListener(item -> {
+
+            if (R.id.nav_add_ticket == item.getItemId()) {
+                // Instead of navigating directly, navigate via NavController with the argument
+                navController.navigate(R.id.nav_add_ticket, bundle);
+            }
+            else if (R.id.nav_users == item.getItemId()) {
+                navController.navigate(R.id.nav_users, bundle);
+            }
+            else if (R.id.nav_home == item.getItemId()) {
+                navController.navigate(R.id.nav_home);
+            }
+            else if (R.id.nav_tickets_pendientes == item.getItemId()) {
+                navController.navigate(R.id.nav_tickets_pendientes, bundle);
+            }
+            else if (R.id.nav_tickets_admin == item.getItemId()) {
+                navController.navigate(R.id.nav_tickets_admin, bundle);
+            }
+            else  if (R.id.nav_tickets_tecnico == item.getItemId()) {
+                navController.navigate(R.id.nav_tickets_tecnico, bundle);
+            }
+            else  if (R.id.nav_add_user == item.getItemId()) {
+                navController.navigate(R.id.nav_add_user, bundle);
+            }
+            else  if (R.id.nav_tickets_trabajador == item.getItemId()) {
+                navController.navigate(R.id.nav_tickets_trabajador, bundle);
+            }
+
+            drawer.closeDrawers(); // Close the drawer after selection
+            return true; // Indicate that the item was handled
+        });
 
         // If user is Tecnico fill marcas and fallas TextViews in nav_headers_main
         if (user.getRol().getId() == 2) {

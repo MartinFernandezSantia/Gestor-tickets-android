@@ -5,4 +5,12 @@
         <item>Técnico</item>
         <item>Trabajador</item>
     </string-array>
+    <string-array name="tickets_spinner_options">
+        <item>Todos</item>
+        <item>No asignado</item>
+        <item>Atendido</item>
+        <item>Resuelto</item>
+        <item>Reabierto</item>
+        <item>Finalizado</item>
+    </string-array>
 </resources>

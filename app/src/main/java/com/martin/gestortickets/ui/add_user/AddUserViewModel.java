@@ -36,6 +36,8 @@ public class AddUserViewModel extends AndroidViewModel {
         boolean created = usuarioDAO.create(newUser);
         if (created) newUserLiveData.setValue(newUser);
 
+
+
         return created;
     }
 

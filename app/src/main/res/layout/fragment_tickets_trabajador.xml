@@ -10,7 +10,7 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="600dp"
         android:background="@color/cardview_dark_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,40 +30,69 @@
 
     <LinearLayout
         android:layout_width="409dp"
-        android:layout_height="79dp"
+        android:layout_height="0dp"
         android:gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2">
 
-        <Button
-            android:id="@+id/reabrirBtn"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/buttonBg2"
-            android:gravity="center"
-            android:text="Reabrir"
-            android:textColor="@color/background2"
-            android:textSize="20sp"
-            app:cornerRadius="20dp"
-            android:layout_marginHorizontal="5sp"/>
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/finalizarBtn"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
+            <Button
+                android:id="@+id/reabrirBtn"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/buttonBg2"
+                android:gravity="center"
+                android:text="Reabrir"
+                android:textColor="@color/background2"
+                android:textSize="20sp"
+                app:cornerRadius="20dp"
+                android:layout_marginHorizontal="5sp"/>
+
+            <Button
+                android:id="@+id/finalizarBtn"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/buttonBg"
+                android:gravity="center"
+                android:text="Finalizar"
+                android:textColor="@color/background2"
+                android:textSize="20sp"
+                app:cornerRadius="20dp"
+                android:layout_marginHorizontal="5sp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/buttonBg"
-            android:gravity="center"
-            android:text="Finalizar"
-            android:textColor="@color/background2"
-            android:textSize="20sp"
-            app:cornerRadius="20dp"
-            android:layout_marginHorizontal="5sp"/>
-
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/verTicketBtn"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:backgroundTint="#1DF78C"
+                android:gravity="center"
+                android:text="Ver Ticket"
+                android:textColor="@color/background2"
+                android:textSize="20sp"
+                app:cornerRadius="20dp"
+                android:layout_marginHorizontal="25sp"/>
+        </LinearLayout>
 
     </LinearLayout>
 

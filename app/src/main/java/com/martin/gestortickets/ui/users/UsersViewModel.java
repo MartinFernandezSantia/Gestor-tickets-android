@@ -62,4 +62,8 @@ public class UsersViewModel extends AndroidViewModel {
         userListLiveData.getValue().get(usersIndex.get(id)).setBloqueado(blocked);
         return true;
     }
+
+    public boolean resetPassword(int id) {
+        return usuarioDAO.resetPassword(id, true);
+    }
 }

@@ -37,7 +37,7 @@
             android:layout_marginBottom="33dp"
             android:background="@drawable/spinner_bg"
             android:dropDownVerticalOffset="8dp"
-            android:entries="@array/spinner_options"
+            android:entries="@array/tickets_spinner_options"
             android:padding="8dp"
             android:popupBackground="@color/white" />
     </LinearLayout>
@@ -86,20 +86,7 @@
             android:textColor="@color/background2"
             android:textSize="20sp"
             app:cornerRadius="20dp"
-            android:layout_marginHorizontal="5sp"/>
-
-        <Button
-            android:id="@+id/finalizarBtn"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/buttonBg"
-            android:gravity="center"
-            android:text="Finalizar"
-            android:textColor="@color/background2"
-            android:textSize="20sp"
-            app:cornerRadius="20dp"
-            android:layout_marginHorizontal="5sp"/>
+            android:layout_marginHorizontal="25sp"/>
 
 
     </LinearLayout>
