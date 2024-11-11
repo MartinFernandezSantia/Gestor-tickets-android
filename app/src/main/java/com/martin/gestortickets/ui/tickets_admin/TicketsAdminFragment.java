@@ -28,6 +28,7 @@ import com.martin.gestortickets.databinding.FragmentTicketsTrabajadorBinding;
 import com.martin.gestortickets.databinding.FragmentUsersBinding;
 import com.martin.gestortickets.entities.Ticket;
 import com.martin.gestortickets.entities.Usuario;
+import com.martin.gestortickets.ui.ViewTicketDialog;
 import com.martin.gestortickets.ui.users.UsersViewModel;
 
 import java.util.ArrayList;
@@ -41,20 +42,27 @@ public class TicketsAdminFragment extends Fragment {
     private boolean selectedRowWasWhite;
     private Usuario user;
     private TicketsAdminViewModel ticketsAdminViewModel;
+    private UsersViewModel usersViewModel;
     private Button reabrirBtn;
+    private Button verTicketBtn;
     private Spinner mySpinner;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ticketsAdminViewModel = new ViewModelProvider(requireActivity()).get(TicketsAdminViewModel.class);
+        usersViewModel = new ViewModelProvider(requireActivity()).get(UsersViewModel.class);
         binding = FragmentTicketsAdminBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         ticketTable = binding.ticketsTable;
         reabrirBtn = binding.reabrirBtn;
+        verTicketBtn = binding.verTicketBtn;
         mySpinner = binding.mySpinner;
 
-        reabrirBtn.setOnClickListener(v -> reabirTicket());
         ticketsAdminViewModel.getTickets().observe(getViewLifecycleOwner(), this::updateTicketTable);
+        ticketsAdminViewModel.getUpdatedTecnico().observe(getViewLifecycleOwner(), usersViewModel::updateUser);
+
+        reabrirBtn.setOnClickListener(v -> reabirTicket());
+        verTicketBtn.setOnClickListener(v -> viewTicket());
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -227,5 +235,28 @@ public class TicketsAdminFragment extends Fragment {
         else {
             Toast.makeText(getContext(), "No se ha podido reabrir el ticket", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void viewTicket() {
+        if (selectedRowIndex == -1) {
+            Toast.makeText(getContext(), "No se ha seleccionado un ticket", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        TableRow row = (TableRow) ticketTable.getChildAt(selectedRowIndex);
+        TextView idTV = (TextView) row.getChildAt(0);
+        int id = Integer.parseInt(idTV.getText().toString());
+
+        Ticket ticket = ticketsAdminViewModel.getTicketByID(id);
+        if (ticket == null) return;
+
+        ViewTicketDialog viewTicketDialog = ViewTicketDialog.newInstance(
+                ticket.getTitulo(),
+                (ticket.getEstado() != null) ? ticket.getEstado().getNombre() : "No atendido",
+                ticket.getCreador().getId().toString(),
+                (ticket.getTecnico() != null) ? ticket.getTecnico().getId().toString() : "No asignado",
+                ticket.getDescripcion()
+        );
+        viewTicketDialog.show(getParentFragmentManager(), "My View Dialog");
     }
 }

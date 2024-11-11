@@ -18,12 +18,14 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.martin.gestortickets.R;
 import com.martin.gestortickets.databinding.FragmentTicketsTrabajadorBinding;
 import com.martin.gestortickets.databinding.FragmentUsersBinding;
 import com.martin.gestortickets.entities.Ticket;
 import com.martin.gestortickets.entities.Usuario;
+import com.martin.gestortickets.ui.ViewTicketDialog;
 import com.martin.gestortickets.ui.users.UsersViewModel;
 
 import java.util.ArrayList;
@@ -56,11 +58,13 @@ public class TicketsTrabajadorFragment extends Fragment {
         reabrirBtn = binding.reabrirBtn;
         verTicketBtn = binding.verTicketBtn;
 
-
         ticketsTrabajadorViewModel.setUser(user);
         ticketsTrabajadorViewModel.loadTickets();
 
         ticketsTrabajadorViewModel.getTickets().observe(getViewLifecycleOwner(), this::updateTicketTable);
+        finalizarBtn.setOnClickListener(v -> finishTicket());
+        reabrirBtn.setOnClickListener(v -> reopenTicket());
+        verTicketBtn.setOnClickListener(v -> viewTicket());
 
         return root;
     }
@@ -168,4 +172,78 @@ public class TicketsTrabajadorFragment extends Fragment {
         row.addView(textView);
     }
 
+    private void finishTicket() {
+        if (selectedRowIndex == -1) {
+            Toast.makeText(getContext(), "No se ha seleccionado un ticket", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            TableRow row = (TableRow) ticketTable.getChildAt(selectedRowIndex);
+            TextView idTV = (TextView) row.getChildAt(0);
+            TextView estadoTV = (TextView) row.getChildAt(2);
+            TextView tecnicoTV = (TextView) row.getChildAt(3);
+
+            int id = Integer.parseInt(idTV.getText().toString());
+            String estado = estadoTV.getText().toString();
+
+            if (!estado.equals("Resuelto")) {
+                Toast.makeText(getContext(), "Por favor, espere a que el ticket haya sido marcado como 'Resuelto'", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int tecnicoID = Integer.parseInt(tecnicoTV.getText().toString());
+
+            if (ticketsTrabajadorViewModel.finishTicket(id, tecnicoID)) {
+                Toast.makeText(getContext(), "Nos alegra que tu inconveniente haya sido solucionado", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "No se ha podido marcar el Ticket como finalizado", Toast.LENGTH_SHORT).show();
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(getContext(), "Ha ocurrido un error al intentar marcar el ticket como finalizado: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    private void reopenTicket() {
+        if (selectedRowIndex == -1) {
+            Toast.makeText(getContext(), "No se ha seleccionado un ticket", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        TableRow row = (TableRow) ticketTable.getChildAt(selectedRowIndex);
+        TextView idTV = (TextView) row.getChildAt(0);
+        int id = Integer.parseInt(idTV.getText().toString());
+
+        if (ticketsTrabajadorViewModel.reopenTicket(id)) {
+            updateTicketTable(ticketsTrabajadorViewModel.getTickets().getValue());
+            Toast.makeText(getContext(), "Ticket reabierto", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(getContext(), "No se ha podido reabrir el ticket", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void viewTicket() {
+        if (selectedRowIndex == -1) {
+            Toast.makeText(getContext(), "No se ha seleccionado un ticket", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        TableRow row = (TableRow) ticketTable.getChildAt(selectedRowIndex);
+        TextView idTV = (TextView) row.getChildAt(0);
+        int id = Integer.parseInt(idTV.getText().toString());
+
+        Ticket ticket = ticketsTrabajadorViewModel.getTicketByID(id);
+        if (ticket == null) return;
+
+        ViewTicketDialog viewTicketDialog = ViewTicketDialog.newInstance(
+                ticket.getTitulo(),
+                (ticket.getEstado() != null) ? ticket.getEstado().getNombre() : "No atendido",
+                ticket.getCreador().getId().toString(),
+                (ticket.getTecnico() != null) ? ticket.getTecnico().getId().toString() : "No asignado",
+                ticket.getDescripcion()
+        );
+        viewTicketDialog.show(getParentFragmentManager(), "My View Dialog");
+    }
 }

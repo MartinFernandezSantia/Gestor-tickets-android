@@ -125,8 +125,8 @@ public class UsuarioDAO {
             this.db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put("marcas", tecnico.getMarcas());
-            values.put("fallas", tecnico.getFallas());
+            values.put("num_marcas", tecnico.getMarcas());
+            values.put("num_fallas", tecnico.getFallas());
             int rowsAffected = this.db.update("fallas_y_marcas", values, "usuario_id = ?",
                     new String[]{String.valueOf(tecnico.getId())});
 

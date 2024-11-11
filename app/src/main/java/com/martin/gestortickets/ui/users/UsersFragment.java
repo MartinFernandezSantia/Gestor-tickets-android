@@ -191,11 +191,18 @@ public class UsersFragment extends Fragment {
 
     private void handleSwitchToggle(TableRow row, boolean isChecked, Switch userSwitch) {
         TextView idTV = (TextView) row.getChildAt(0);
+        TextView fallasTV = (TextView) row.getChildAt(2);
+        TextView marcasTV = (TextView) row.getChildAt(3);
+
         int id = Integer.parseInt(idTV.getText().toString());
 
         if (!usersViewModel.updateUserBlock(id, isChecked)) {
             Toast.makeText(getContext(), "No se ha podido actualizar el bloqueo del usuario", Toast.LENGTH_SHORT).show();
             userSwitch.setChecked(!isChecked);
+        }
+        else {
+            fallasTV.setText("0");
+            marcasTV.setText("0");
         }
     }
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class TicketsPendientesViewModel extends AndroidViewModel {
     private MutableLiveData<List<Ticket>> ticketListLiveData;
@@ -37,6 +38,7 @@ public class TicketsPendientesViewModel extends AndroidViewModel {
 
     public void loadTickets() {
         List<Ticket> tickets = ticketDAO.getAll(null);
+        ticketsIndex.clear();
 
         for (int i = tickets.size()-1; i>=0; i--) {
             if (tickets.get(i).getEstado() != null && tickets.get(i).getEstado().getId() != 3) {
@@ -56,22 +58,35 @@ public class TicketsPendientesViewModel extends AndroidViewModel {
 
         if (!taken) return false;
 
-
+        // Get current tickets list and remove the ticket
         List<Ticket> tickets = new ArrayList<>(ticketListLiveData.getValue());
-        Log.d("TAG", ticketsIndex.toString() + " - " + tickets.toString());
+        int indexToRemove = ticketsIndex.get(ticketID);
+        tickets.remove(indexToRemove);
 
-        Log.d("TAG", ticketsIndex.get(ticketID).toString() + " - " + ticketsIndex.size());
-
-        tickets.remove((int) ticketsIndex.get(ticketID));
-        Log.d("TAG", "" + tickets.size());
-
+        // Remove the ticketID from the index map
         ticketsIndex.remove(ticketID);
+
+        // Decrement all indices greater than indexToRemove by 1
+        for (Map.Entry<Integer, Integer> entry : ticketsIndex.entrySet()) {
+            if (entry.getValue() > indexToRemove) {
+                ticketsIndex.put(entry.getKey(), entry.getValue() - 1);
+            }
+        }
+
+        // Update the LiveData with the modified tickets list
         ticketListLiveData.setValue(tickets);
 
         return true;
     }
 
+
     public int amountOfTicketsTaken(Usuario user) {
         return ticketDAO.getAllTaken(user.getId()).size();
+    }
+
+    public Ticket getTicketByID(int ticketID) {
+        Optional<Ticket> ticket = ticketDAO.getByID(ticketID);
+
+        return ticket.orElse(null);
     }
 }

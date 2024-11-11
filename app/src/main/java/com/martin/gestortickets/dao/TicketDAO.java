@@ -234,7 +234,7 @@ public class TicketDAO {
         return tecnicos;
     }
 
-    boolean wasReopened(int ticketID) {
+    public boolean wasReopened(int ticketID) {
         try {
             String sql = "SELECT EXISTS (SELECT 1 FROM asignaciones WHERE ticket_id = ? AND estado_id = 3)";
             this.db = dbHelper.getReadableDatabase();

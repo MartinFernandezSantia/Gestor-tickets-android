@@ -34,8 +34,9 @@ public class UsersViewModel extends AndroidViewModel {
         return userListLiveData;
     }
 
-    private void loadUsers() {
+    public void loadUsers() {
         List<Usuario> users = usuarioDAO.getAll();
+        usersIndex.clear();
 
         for (int i=0; i < users.size(); i++) {
             usersIndex.put(users.get(i).getId(), i);
@@ -56,10 +57,27 @@ public class UsersViewModel extends AndroidViewModel {
         userListLiveData.setValue(updatedUsers);
     }
 
+    public void updateUser(Usuario user) {
+        List<Usuario> currentUsers = userListLiveData.getValue();
+
+        // Create a new list and add the user to it
+        List<Usuario> updatedUsers = new ArrayList<>(currentUsers);
+        updatedUsers.set(usersIndex.get(user.getId()), user);
+
+        // Set the updated list to trigger the observer
+        userListLiveData.setValue(updatedUsers);
+    }
+
     public boolean updateUserBlock(int id, boolean blocked) {
         if (!usuarioDAO.updateBloqueado(id, blocked)) return false;
 
-        userListLiveData.getValue().get(usersIndex.get(id)).setBloqueado(blocked);
+        Usuario user = usuarioDAO.getByID(id).get();
+        user.setMarcas(0);
+        user.setFallas(0);
+
+        usuarioDAO.updateMarcasYFallas(user);
+
+        userListLiveData.getValue().set(usersIndex.get(id), user);
         return true;
     }
 

@@ -34,7 +34,7 @@ public class NotificacionDAO {
         try {
             // Verify the notification wasn't already created and still hasn't been seen
             this.db = dbHelper.getWritableDatabase();
-            String sql = "SELECT * FROM notificaciones WHERE usuario_id = ? AND visto = FALSE AND mensaje LIKE ?";
+            String sql = "SELECT * FROM notificaciones WHERE usuario_id = ? AND visto = 0 AND mensaje LIKE ?";
             this.cursor = this.db.rawQuery(sql, new String[]{
                     String.valueOf(notificacion.getRemitente().getId()),
                     notificacion.getMensaje()}
@@ -47,7 +47,7 @@ public class NotificacionDAO {
             ContentValues values = new ContentValues();
             values.put("mensaje", notificacion.getMensaje());
             values.put("usuario_id", notificacion.getRemitente().getId());
-            int notificacionID = (int) this.db.insertOrThrow("usuarios", null, values);
+            int notificacionID = (int) this.db.insertOrThrow("notificaciones", null, values);
             notificacion.setId(notificacionID);
 
             return (notificacionID > 0) ? 1 : 0;

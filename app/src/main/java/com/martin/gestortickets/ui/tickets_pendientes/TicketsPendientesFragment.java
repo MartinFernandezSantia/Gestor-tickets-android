@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.martin.gestortickets.databinding.FragmentTicketsAdminBinding;
 import com.martin.gestortickets.databinding.FragmentTicketsPendientesBinding;
 import com.martin.gestortickets.entities.Ticket;
 import com.martin.gestortickets.entities.Usuario;
+import com.martin.gestortickets.ui.ViewTicketDialog;
 import com.martin.gestortickets.ui.tickets_admin.TicketsAdminViewModel;
 
 import java.util.List;
@@ -37,6 +39,7 @@ public class TicketsPendientesFragment extends Fragment {
     private Usuario user;
     private TicketsPendientesViewModel ticketsPendientesViewModel;
     private Button takeTicketBtn;
+    private Button viewTicketBtn;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,10 +48,12 @@ public class TicketsPendientesFragment extends Fragment {
         View root = binding.getRoot();
         ticketTable = binding.ticketsTable;
         takeTicketBtn = binding.tomarTicketBtn;
+        viewTicketBtn = binding.verTicketBtn;
         user = (Usuario) getArguments().getSerializable("user");
 
         ticketsPendientesViewModel.getTickets().observe(getViewLifecycleOwner(), this::updateTicketTable);
         takeTicketBtn.setOnClickListener(v -> takeTicket());
+        viewTicketBtn.setOnClickListener(v -> viewTicket());
 
         return root;
     }
@@ -174,5 +179,31 @@ public class TicketsPendientesFragment extends Fragment {
         if (!ticketsPendientesViewModel.takeTicket(id, user)) {
             Toast.makeText(getContext(), "No se ha podido tomar el ticket", Toast.LENGTH_SHORT).show();
         }
+        else {
+            selectedRowIndex = -1;
+        }
+    }
+
+    private void viewTicket() {
+        if (selectedRowIndex == -1) {
+            Toast.makeText(getContext(), "No se ha seleccionado un ticket", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        TableRow row = (TableRow) ticketTable.getChildAt(selectedRowIndex);
+        TextView idTV = (TextView) row.getChildAt(0);
+        int id = Integer.parseInt(idTV.getText().toString());
+
+        Ticket ticket = ticketsPendientesViewModel.getTicketByID(id);
+        if (ticket == null) return;
+
+        ViewTicketDialog viewTicketDialog = ViewTicketDialog.newInstance(
+                ticket.getTitulo(),
+                (ticket.getEstado() != null) ? ticket.getEstado().getNombre() : "No atendido",
+                ticket.getCreador().getId().toString(),
+                (ticket.getTecnico() != null) ? ticket.getTecnico().getId().toString() : "No asignado",
+                ticket.getDescripcion()
+                );
+        viewTicketDialog.show(getParentFragmentManager(), "My View Dialog");
     }
 }
