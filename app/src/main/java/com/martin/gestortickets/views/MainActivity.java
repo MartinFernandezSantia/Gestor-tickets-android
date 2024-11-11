@@ -11,6 +11,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_users, R.id.nav_tickets_admin, R.id.nav_tickets_tecnico, R.id.nav_tickets_trabajador, R.id.nav_tickets_pendientes)
+                R.id.nav_home, R.id.nav_users, R.id.nav_tickets_admin, R.id.nav_tickets_tecnico, R.id.nav_tickets_trabajador, R.id.nav_tickets_pendientes, R.id.nav_notificaciones)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -86,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
             else  if (R.id.nav_tickets_trabajador == item.getItemId()) {
                 navController.navigate(R.id.nav_tickets_trabajador, bundle);
             }
+            else  if (R.id.nav_notificaciones == item.getItemId()) {
+                navController.navigate(R.id.nav_notificaciones, bundle);
+            }
 
             drawer.closeDrawers(); // Close the drawer after selection
             return true; // Indicate that the item was handled
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 navMenu.findItem(R.id.nav_tickets_trabajador).setVisible(false);
                 navMenu.findItem(R.id.nav_tickets_admin).setVisible(false);
                 navMenu.findItem(R.id.nav_users).setVisible(false);
+                navMenu.findItem(R.id.nav_notificaciones).setVisible(false);
                 break;
 
             case 3:
@@ -127,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 navMenu.findItem(R.id.nav_users).setVisible(false);
                 navMenu.findItem(R.id.nav_tickets_pendientes).setVisible(false);
                 navMenu.findItem(R.id.nav_tickets_tecnico).setVisible(false);
+                navMenu.findItem(R.id.nav_notificaciones).setVisible(false);
                 break;
         }
     }

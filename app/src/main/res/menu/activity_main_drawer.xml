@@ -36,5 +36,9 @@
             android:id="@+id/nav_add_ticket"
             android:icon="@drawable/ic_add_ticket"
             android:title="@string/menu_add_ticket" />
+        <item
+            android:id="@+id/nav_notificaciones"
+            android:icon="@drawable/baseline_circle_notifications_24"
+            android:title="Notificaciones" />
     </group>
 </menu>

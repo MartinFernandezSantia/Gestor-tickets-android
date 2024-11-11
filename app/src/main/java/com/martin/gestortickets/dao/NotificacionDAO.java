@@ -59,45 +59,25 @@ public class NotificacionDAO {
         return 0;
     }
 
-    boolean updateVisto(List<Integer> idList) {
+    public boolean updateVisto(int notificacionID) {
         try {
-            // Ensure list isn't empty
-            if (idList.isEmpty()) return false;
-
             this.db = dbHelper.getWritableDatabase();
-            StringBuilder sql = new StringBuilder("UPDATE notificaciones SET visto = 1 WHERE id IN (");
 
-            // Create a list of placeholders
-            String[] placeholders = new String[idList.size()];
-            Arrays.fill(placeholders, "?");
-            sql.append(TextUtils.join(",", placeholders));  // "?, ?, ?..." based on number of IDs
-            sql.append(")");
+            ContentValues values = new ContentValues();
+            values.put("visto", 1);
+            int rowsAffected = this.db.update("notificaciones", values, "id = ?",
+                    new String[]{String.valueOf(notificacionID)});
 
-            this.db.beginTransaction();
-
-            // Prepare the statement
-            SQLiteStatement statement = this.db.compileStatement(sql.toString());
-
-            // Bind each ID parameter
-            for (int i = 0; i < idList.size(); i++) {
-                statement.bindLong(i + 1, idList.get(i)); // SQLite indices start at 1
-            }
-
-            // Execute the update and check if rows were affected
-            int affectedRows = statement.executeUpdateDelete();
-
-            this.db.setTransactionSuccessful();
-            return affectedRows > 0;
+            return rowsAffected > 0;
         } catch (SQLException e) {
             Log.e("Error al actualizar notificacion/es", e.getMessage());
         } finally {
-            if (this.db != null && this.db.inTransaction()) this.db.endTransaction();
             dbHelper.closeResources(this.db, this.cursor);
         }
         return false;
     }
 
-    List<Notificacion> getAllNotSeen() {
+    public List<Notificacion> getAllNotSeen() {
         List<Notificacion> notificaciones = new ArrayList<>();
         try {
             this.db = dbHelper.getReadableDatabase();

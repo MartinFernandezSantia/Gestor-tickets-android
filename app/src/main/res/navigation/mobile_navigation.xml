@@ -51,4 +51,9 @@
         android:name="com.martin.gestortickets.ui.add_ticket.AddTicketFragment"
         android:label="@string/menu_add_ticket"
         tools:layout="@layout/fragment_add_ticket" />
+    <fragment
+        android:id="@+id/nav_notificaciones"
+        android:name="com.martin.gestortickets.ui.notificaciones.NotificacionesFragment"
+        android:label="Notificaciones"
+        tools:layout="@layout/fragment_notificaciones" />
 </navigation>
