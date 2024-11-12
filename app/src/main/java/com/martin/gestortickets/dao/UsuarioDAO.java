@@ -139,22 +139,6 @@ public class UsuarioDAO {
         return false;
     }
 
-//    Integer takenTickets(int tecnicoID) {
-//        try {
-//            this.db = dbHelper.getReadableDatabase();
-//            String sql = "SELECT COUNT(*) FROM (SELECT MAX(id) AS latest_id FROM asignaciones GROUP BY ticket_id) AS latest_assignments JOIN asignaciones AS a ON a.id = latest_assignments.latest_id WHERE a.usuario_id = ? AND a.estado_id = 1";
-//            this.cursor = this.db.rawQuery(sql, new String[]{String.valueOf(tecnicoID)});
-//
-//            if (this.cursor.moveToFirst()) {
-//                return this.cursor.getInt(0);
-//            }
-//        } catch (SQLException e) {
-//            Log.e("Error al actualizar las marcas y fallas del tecnico", e.getMessage());
-//        } finally {
-//            dbHelper.closeResources(this.db, this.cursor);
-//        }
-//        return -1;
-//    }
 
     public Optional<Usuario> getByID(int id) {
         Optional<Usuario> usuario = Optional.empty();
@@ -201,8 +185,14 @@ public class UsuarioDAO {
                 int usuarioID = this.cursor.getInt(0);
                 Rol rol = rolDAO.getByID(this.cursor.getInt(1)).get();
                 boolean bloqueado = (this.cursor.getInt(2) == 1);
-                int fallas = this.cursor.getInt(3);
-                int marcas = this.cursor.getInt(4);
+                Integer fallas = null;
+                Integer marcas = null;
+
+                if (rol.getId() == 2) {
+                    fallas = this.cursor.getInt(3);
+                    marcas = this.cursor.getInt(4);
+                }
+
 
                 usuarios.add(new Usuario(usuarioID, rol, bloqueado, fallas, marcas));
             }

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);
 
-        // Handle the selection of the menu item to navigate to AddTicketFragment
+        // Handle the selection of the menu item to navigate
         navigationView.setNavigationItemSelectedListener(item -> {
 
             if (R.id.nav_add_ticket == item.getItemId()) {
@@ -154,16 +154,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handles 3 dotted menu
         int id = item.getItemId();
 
         if (id == R.id.logout) {
-            setResult(RESULT_CANCELED);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
             finish();
             return true;
         }
         else if (id == R.id.changePass) {
-            setResult(RESULT_FIRST_USER);
-            finish();
+            Intent intent = new Intent(MainActivity.this, ChangePasswActivity.class);
+            intent.putExtra("userID", user.getId());
+            startActivity(intent);
+//            setResult(RESULT_FIRST_USER);
+//            finish();
             return true;
         }
 

@@ -48,7 +48,8 @@ public class TicketsTrabajadorViewModel extends AndroidViewModel {
 
         // Remove all finished tickets
         for (int i=tickets.size()-1; i>=0; i--) {
-            if (tickets.get(i).getEstado().getId() == 4) {
+            Estado estado = tickets.get(i).getEstado();
+            if (estado != null && estado.getId() == 4) {
                 tickets.remove(i);
             }
         }

@@ -63,6 +63,7 @@ public class UsersFragment extends Fragment {
         // Add headers
         addHeaderRow();
 
+        Log.d("TAG", user.toString());
         for (int i=0; i< users.size(); i++) {
             Usuario user1 = users.get(i);
             if (user1.equals(user)) continue;

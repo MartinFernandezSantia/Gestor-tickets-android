@@ -70,18 +70,19 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            Intent resultIntent = new Intent();
+//            Intent resultIntent = new Intent();
 
-            // Si ID y contraseña son iguales
+            // Si ID y contraseña son iguales fuerzo el cambio de contraseña
             if (passw.equals(String.valueOf(id))) {
-                resultIntent.putExtra("userID", user.get().getId());
-                setResult(RESULT_FIRST_USER, resultIntent);
-                finish();
+                Intent intent = new Intent(LoginActivity.this, ChangePasswActivity.class);
+                intent.putExtra("userID", user.get().getId());
+                startActivity(intent);
                 return;
             }
 
-            resultIntent.putExtra("user", user.get());
-            setResult(RESULT_OK, resultIntent);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("user", user.get());
+            startActivity(intent);
             finish();
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Los tipos de datos son incorrectos", Toast.LENGTH_SHORT).show();

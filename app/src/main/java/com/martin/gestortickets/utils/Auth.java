@@ -34,8 +34,13 @@ public class Auth {
                 int usuarioID = cursor.getInt(0);
                 Rol rol = rolDAO.getByID(cursor.getInt(1)).get();
                 boolean bloqueado = (cursor.getInt(2) == 1);
-                int fallas = cursor.getInt(3);
-                int marcas = cursor.getInt(4);
+                Integer fallas = null;
+                Integer marcas = null;
+
+                if (rol.getId() == 2) {
+                    fallas = cursor.getInt(3);
+                    marcas = cursor.getInt(4);
+                }
 
                 usuario = Optional.of(new Usuario(usuarioID, rol, bloqueado, fallas, marcas));
             }

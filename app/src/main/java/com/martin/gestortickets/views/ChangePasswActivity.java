@@ -65,9 +65,9 @@ public class ChangePasswActivity extends AppCompatActivity {
             return;
         }
 
-        Toast toast = Toast.makeText(this, "Se ha modificado la contraseña exitosamente", Toast.LENGTH_SHORT);
-        Intent resultIntent = new Intent();
-        setResult(RESULT_OK, resultIntent);
+        Toast.makeText(this, "Se ha modificado la contraseña exitosamente", Toast.LENGTH_SHORT).show();
+//        Intent resultIntent = new Intent();
+//        setResult(RESULT_OK, resultIntent);
         finish();
     }
 }
