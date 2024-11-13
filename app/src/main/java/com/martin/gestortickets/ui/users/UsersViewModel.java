@@ -72,10 +72,14 @@ public class UsersViewModel extends AndroidViewModel {
         if (!usuarioDAO.updateBloqueado(id, blocked)) return false;
 
         Usuario user = usuarioDAO.getByID(id).get();
-        user.setMarcas(0);
-        user.setFallas(0);
 
-        usuarioDAO.updateMarcasYFallas(user);
+        // If user's being unlocked
+        if (!blocked) {
+            user.setMarcas(0);
+            user.setFallas(0);
+
+            usuarioDAO.updateMarcasYFallas(user);
+        }
 
         userListLiveData.getValue().set(usersIndex.get(id), user);
         return true;

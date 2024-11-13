@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -66,11 +67,14 @@ public class LoginActivity extends AppCompatActivity {
 
             // If user is blocked
             if (user.get().isBloqueado()) {
-                Toast.makeText(this, "Lo sentimos, pero actualmente te encuentras bloqueado. Solicita el desbloqueo de tu cuenta al administrador para poder continuar", Toast.LENGTH_LONG).show();
+                new AlertDialog.Builder(this)
+                        .setTitle("Usuario bloqueado")
+                        .setMessage("Lo sentimos, pero actualmente te encuentras bloqueado. Solicita el desbloqueo de tu cuenta al administrador para poder continuar")
+                        .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                        .show();
                 return;
             }
 
-//            Intent resultIntent = new Intent();
 
             // Si ID y contraseña son iguales fuerzo el cambio de contraseña
             if (passw.equals(String.valueOf(id))) {

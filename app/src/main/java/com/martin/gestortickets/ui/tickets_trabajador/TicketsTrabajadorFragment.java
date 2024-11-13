@@ -213,7 +213,14 @@ public class TicketsTrabajadorFragment extends Fragment {
 
         TableRow row = (TableRow) ticketTable.getChildAt(selectedRowIndex);
         TextView idTV = (TextView) row.getChildAt(0);
+        TextView estadoTV = (TextView) row.getChildAt(2);
         int id = Integer.parseInt(idTV.getText().toString());
+        String estado = estadoTV.getText().toString();
+
+        if (!estado.equals("Resuelto")) {
+            Toast.makeText(getContext(), "El ticket aun no ha sido marcado como 'Resuelto'", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (ticketsTrabajadorViewModel.reopenTicket(id)) {
             updateTicketTable(ticketsTrabajadorViewModel.getTickets().getValue());
